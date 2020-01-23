@@ -1,10 +1,7 @@
 # Everything needed in production
 
 # Flask
-Flask==1.1.1
-
-# Auth
-Flask-Bcrypt==0.7.1
+Flask
 
 # Environment variable parsing
-environs==7.1.0
+environs

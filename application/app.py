@@ -6,9 +6,9 @@ import sys
 from flask import Flask, render_template
 
 from application import public
-from application.extensions import (
-    bcrypt
-)
+#from application.extensions import (
+#    bcrypt
+#)
 
 
 def create_app(config_object="application.settings"):
@@ -28,7 +28,7 @@ def create_app(config_object="application.settings"):
 
 def register_extensions(app):
     """Register Flask extensions."""
-    bcrypt.init_app(app)
+    #bcrypt.init_app(app)
     return None
 
 
