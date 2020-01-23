@@ -17,3 +17,5 @@ services:
       context: nginx
     ports:
       - 80:80
+    volumes:
+        - "./application/static:/static"
