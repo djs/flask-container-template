@@ -3,7 +3,7 @@
 # OS Support also exists for jessie & stretch (slim and full).
 # See https://hub.docker.com/r/library/python/ for all supported Python
 # tags from Docker Hub.
-FROM python:latest
+FROM python:latest AS base
 
 # If you prefer miniconda:
 #FROM continuumio/miniconda3
@@ -14,7 +14,6 @@ RUN apt-get update
 RUN pip install uwsgi
 
 LABEL Name=flask-container-template Version=0.0.1
-EXPOSE 5000
 
 WORKDIR /app
 
@@ -22,11 +21,19 @@ WORKDIR /app
 # Using pip:
 
 COPY requirements/ requirements
-RUN python3 -m pip install -r requirements/dev.txt
+RUN python -m pip install -r requirements/prod.txt
 
 COPY . /app
 
-#CMD ["flask", "run", "--host=0.0.0.0"]
+# ================================= DEVELOPMENT ================================
+FROM base AS development
+RUN python -m pip install -r requirements/dev.txt
+EXPOSE 5000
+CMD ["flask", "run", "--host=0.0.0.0"]
+
+# ================================= PRODUCTION =================================
+FROM base AS production
+
 ENV PYTHONPATH "${PYTHONPATH}:/app"
 CMD ["uwsgi", "--ini", "uwsgi.ini"]
 
