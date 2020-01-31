@@ -6,9 +6,7 @@ import sys
 from flask import Flask, render_template
 
 from application import public
-#from application.extensions import (
-#    bcrypt
-#)
+from application.extensions import celery
 
 
 def create_app(config_object="application.settings"):
@@ -23,6 +21,7 @@ def create_app(config_object="application.settings"):
     register_errorhandlers(app)
     register_commands(app)
     configure_logger(app)
+    init_celery(app)
     return app
 
 
@@ -62,3 +61,19 @@ def configure_logger(app):
     handler = logging.StreamHandler(sys.stdout)
     if not app.logger.handlers:
         app.logger.addHandler(handler)
+
+def init_celery(app=None):
+    app = app or create_app()
+    celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
+    celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
+    celery.conf.update(app.config)
+
+    class ContextTask(celery.Task):
+        """Make celery tasks work with Flask app context"""
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery

@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-#from flask_bcrypt import Bcrypt
+from celery import Celery
 
-#bcrypt = Bcrypt()
+celery = Celery()

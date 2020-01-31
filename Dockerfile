@@ -29,7 +29,6 @@ COPY . /app
 FROM base AS development
 RUN python -m pip install -r requirements/dev.txt
 EXPOSE 5000
-CMD ["flask", "run", "--host=0.0.0.0"]
 
 # ================================= PRODUCTION =================================
 FROM base AS production
