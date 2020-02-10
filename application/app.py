@@ -27,7 +27,7 @@ def create_app(config_object="application.settings"):
 
 def register_extensions(app):
     """Register Flask extensions."""
-    #bcrypt.init_app(app)
+    # bcrypt.init_app(app)
     return None
 
 
@@ -61,6 +61,7 @@ def configure_logger(app):
     handler = logging.StreamHandler(sys.stdout)
     if not app.logger.handlers:
         app.logger.addHandler(handler)
+
 
 def init_celery(app=None):
     app = app or create_app()
