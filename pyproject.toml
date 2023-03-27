@@ -7,7 +7,7 @@ authors = ["Dan Savilonis <djs-github@outlook.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 Flask = "^1.1.1"
-redis = "3.3.11"
+redis = "4.5.3"
 celery = "4.4.0"
 kombu = "4.6.7"
 flower = "^0.9.3"
